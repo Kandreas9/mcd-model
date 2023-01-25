@@ -1,0 +1,18 @@
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+html {
+	font-family: sans-serif;
+	background-color: rgb(80, 76, 121);
+}
+
+body {
+	height: 100vh;
+	width: 100vw;
+	background: linear-gradient(90deg, rgb(80, 76, 121) calc(44px - 2px), transparent 1%) center,
+		linear-gradient(rgb(80, 76, 121) calc(44px - 2px), transparent 1%) center, rgb(47, 45, 67);
+	background-size: 44px 44px;
+}
