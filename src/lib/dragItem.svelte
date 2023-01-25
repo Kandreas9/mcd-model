@@ -1,6 +1,7 @@
 <script>
     import { onMount } from "svelte";
 
+    export let handledbclick;
 	let dragItem = false;
     let xPosition
     let yPosition
@@ -54,48 +55,13 @@
 	}
 </script>
 
-<div>
-
-    <table on:dblclick={() => console.log('double click')} class="box" on:mousedown={dragstart} on:mouseup={drop}>
-        <tr>
-            <th colspan="3">Name</th>
-        </tr>
-        <tr>
-            <td>Alfreds Futterkiste</td>
-            <td>Maria Anders</td>
-            <td>Germany</td>
-        </tr>
-        <tr>
-            <td>Centro comercial Moctezuma</td>
-            <td>Francisco Chang</td>
-            <td>Mexico</td>
-        </tr>
-    </table>
+<div on:dblclick={handledbclick} class="box" on:mousedown={dragstart} on:mouseup={drop}>
+    <slot></slot>
 </div>
 
 <style>
-    th {
-        text-align: center;
-    }
-
-    th, td {
-        border: 1px solid  rgb(103, 100, 141);
-        pointer-events: none;
-    }
-	.whole-page {
-        position: fixed;
-        top: 60px;
-        left: 0;
-        width: 100vw;
-        height: calc(100vh - 60px);
-    }
 	.box {
         color: white;
-        user-select: none;
-        -webkit-user-select: none;
-        -khtml-user-select: none;
-        -moz-user-select: none;
-        -o-user-select: none;
 		z-index: 3;
         border: 1px solid  rgb(103, 100, 141);
 		position: absolute;
@@ -107,14 +73,5 @@
         min-width: 100px;
 		height: auto;
 		width: auto;
-	}
-	.grab {
-		color: black;
-		background-color: rgb(253, 253, 253);
-		height: 20px;
-		width: 30px;
-		font-size: 13px;
-		border: solid 2px black;
-		cursor: pointer;
 	}
 </style>
