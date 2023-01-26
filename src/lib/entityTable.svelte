@@ -8,7 +8,7 @@
 	export let values;
 	export let tableName;
 
-	export let dragElement;
+	export let dragableElement;
 
 	//Modal
 	let tableInputs = [...values];
@@ -42,8 +42,8 @@
 		let prevElementList = JSON.parse(localStorage.getItem('elements-model'));
 
 		prevElementList[id] = {
-			xPosition: dragElement.style.left,
-			yPosition: dragElement.style.top,
+			xPosition: dragableElement.style.left,
+			yPosition: dragableElement.style.top,
 			type: 'entity',
 			values: tableInputs,
 			tableName
@@ -56,7 +56,7 @@
 	}
 </script>
 
-<DragItem {xPosition} {yPosition} bind:dragElement {handledbclick}>
+<DragItem {xPosition} {yPosition} bind:dragableElement {handledbclick}>
 	<table class="table">
 		<tr>
 			<th colspan="2">{tableName}</th>

@@ -4,9 +4,10 @@
 
 	import Nav from '$lib/nav.svelte';
 	import EntityTable from '../lib/entityTable.svelte';
+	import RelationLine from '../lib/relationLine.svelte';
 
 	let elements;
-	let dragElements = [];
+	let dragableElements = [];
 
 	// let test = [
 	// 	{
@@ -40,6 +41,27 @@
 	// 				null: false
 	// 			}
 	// 		]
+	// 	},
+	// 	{
+	// 		tableName: 'second table',
+	// 		xPosition: '600px',
+	// 		yPosition: '300px',
+	// 		type: 'entity',
+	// 		values: [
+	// 			{
+	// 				name: 'test',
+	// 				code: 'TEST',
+	// 				type: 'char',
+	// 				size: null,
+	// 				constraint: 'primary_key',
+	// 				null: false
+	// 			}
+	// 		]
+	// 	},
+	// 	{
+	// 		type: 'relationLine',
+	// 		divId1: 0,
+	// 		divId2: 2
 	// 	}
 	// ];
 
@@ -48,8 +70,8 @@
 		elements = JSON.parse(localStorage.getItem('elements-model'));
 	}
 
-	function test() {
-		console.log(dragElements);
+	function test2() {
+		console.log(dragableElements);
 	}
 </script>
 
@@ -59,15 +81,19 @@
 	{#each elements as element, i}
 		{#if element.type == 'entity'}
 			<EntityTable
-				bind:dragElement={dragElements[i]}
+				bind:dragableElement={dragableElements[i]}
 				id={i}
 				xPosition={element.xPosition}
 				yPosition={element.yPosition}
 				tableName={element.tableName}
 				values={element.values}
 			/>
+		{:else if element.type == 'relationLine'}
+			<RelationLine
+				dragableElements={[dragableElements[element.divId1], dragableElements[element.divId2]]}
+			/>
 		{/if}
 	{/each}
 {/if}
 
-<button on:click={test}>TESTME</button>
+<button on:click={test2}>TESTME</button>

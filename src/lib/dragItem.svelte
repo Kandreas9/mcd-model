@@ -1,5 +1,5 @@
 <script>
-	export let dragElement;
+	export let dragableElement;
 	export let handledbclick;
 	export let xPosition = '200px';
 	export let yPosition = '200px';
@@ -35,17 +35,22 @@
 		let notTouchingRight = e.pageX + xOffset <= document.body.offsetWidth ? true : false;
 
 		if (dragItem && notTouchingNav && notTouchingLeft && notTouchingBottom && notTouchingRight) {
+			dragableElement = dragItem;
 			setPosition(dragx, dragy);
 		} else if (dragItem && !notTouchingNav) {
+			dragableElement = dragItem;
 			setPosition(dragx, 60);
 			dragItem = null;
 		} else if (dragItem && !notTouchingLeft) {
+			dragableElement = dragItem;
 			setPosition(0, dragy);
 			dragItem = null;
 		} else if (dragItem && !notTouchingBottom) {
+			dragableElement = dragItem;
 			setPosition(dragx, document.body.offsetHeight - dragItem.offsetHeight);
 			dragItem = null;
 		} else if (dragItem && !notTouchingRight) {
+			dragableElement = dragItem;
 			setPosition(document.body.offsetWidth - dragItem.offsetWidth, dragy);
 			dragItem = null;
 		}
@@ -53,7 +58,7 @@
 </script>
 
 <div
-	bind:this={dragElement}
+	bind:this={dragableElement}
 	on:dblclick={handledbclick}
 	class="box"
 	on:mousedown={dragstart}
