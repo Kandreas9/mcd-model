@@ -1,59 +1,204 @@
 <script>
-	import DragItem from "./dragItem.svelte";
-	import Modal from "./modal.svelte";
-    
-    let isModalOpen = false;
+	import DragItem from './dragItem.svelte';
+	import Modal from './modal.svelte';
 
-    const handledbclick = () => {
-        isModalOpen = true;
-    }
+	export let id;
+	export let xPosition;
+	export let yPosition;
+	export let values;
+	export let tableName;
 
-    const handleCloseSearch = () => {
-        isModalOpen = false;
-    }
+	export let dragElement;
+
+	//Modal
+	let tableInputs = [...values];
+	let isModalOpen = false;
+
+	const handledbclick = () => {
+		isModalOpen = true;
+	};
+
+	const handleCloseSearch = () => {
+		isModalOpen = false;
+	};
+
+	const handleAddTableInput = () => {
+		let tempArray = [
+			...tableInputs,
+			{
+				name: '',
+				code: '',
+				type: '',
+				size: null,
+				constraint: '',
+				null: false
+			}
+		];
+
+		tableInputs = tempArray;
+	};
+
+	function onSubmit(e) {
+		let prevElementList = JSON.parse(localStorage.getItem('elements-model'));
+
+		prevElementList[id] = {
+			xPosition: dragElement.style.left,
+			yPosition: dragElement.style.top,
+			type: 'entity',
+			values: tableInputs,
+			tableName
+		};
+
+		values = tableInputs;
+		localStorage.setItem('elements-model', JSON.stringify(prevElementList));
+
+		handleCloseSearch();
+	}
 </script>
 
-<DragItem {handledbclick}>
-    <table>
-        <tr>
-            <th colspan="3">Name</th>
-        </tr>
-        <tr>
-            <td>Alfreds Futterkiste</td>
-            <td>Maria Anders</td>
-            <td>Germany</td>
-        </tr>
-        <tr>
-            <td>Centro comercial Moctezuma</td>
-            <td>Francisco Chang</td>
-            <td>Mexico</td>
-        </tr>
-    </table>
+<DragItem {xPosition} {yPosition} bind:dragElement {handledbclick}>
+	<table class="table">
+		<tr>
+			<th colspan="2">{tableName}</th>
+		</tr>
+		{#each values as row}
+			<tr>
+				<td>{row.name}</td>
+				<td>{row.type}</td>
+			</tr>
+		{/each}
+	</table>
 </DragItem>
 
 {#if isModalOpen}
-     <Modal {handleCloseSearch}>
-        <form>
-            <label>
-                Name
-                <input type="text">
-            </label>
-        </form>
-     </Modal>
+	<Modal {handleCloseSearch}>
+		<form on:submit|preventDefault={onSubmit}>
+			<label>
+				Name
+				<input type="text" id="name" name="name" bind:value={tableName} />
+			</label>
+
+			<table>
+				<tr>
+					<th>Num</th>
+					<th>Name</th>
+					<th>Code</th>
+					<th>Type</th>
+					<th>Size</th>
+					<th>Constraint</th>
+					<th>Null</th>
+				</tr>
+
+				{#each tableInputs as itemInputs, i}
+					<tr>
+						<td>
+							{i + 1}
+						</td>
+						<td>
+							<input
+								type="text"
+								id="name"
+								name="name"
+								on:input={(e) => {
+									itemInputs.code = e.target.value.toUpperCase();
+
+									return (itemInputs.name = e.target.value);
+								}}
+								bind:value={itemInputs.name}
+							/>
+						</td>
+						<td><input type="text" id="code" name="code" bind:value={itemInputs.code} /></td>
+						<td>
+							<select name="type" id="type" bind:value={itemInputs.type}>
+								<!-- text -->
+								<option value="auto_increment">auto_increment</option>
+								<option value="char">char</option>
+								<option value="varchar">varchar</option>
+								<option value="binary">binary</option>
+								<option value="varbinary">varbinary</option>
+								<option value="tinyblob">tinyblob</option>
+								<option value="tinytext">tinytext</option>
+								<option value="text">text</option>
+								<option value="blob">blob</option>
+								<option value="mediumtext">mediumtext</option>
+								<option value="mediumblob">mediumblob</option>
+								<option value="longtext">longtext</option>
+								<option value="longblob">longblob</option>
+								<option value="enum">enum</option>
+								<option value="set">set</option>
+								<!-- Numbers -->
+								<option value="bit">bit</option>
+								<option value="tinyint">tinyint</option>
+								<option value="bool">bool</option>
+								<option value="smallint">smallint</option>
+								<option value="mediumint">mediumint</option>
+								<option value="int">int</option>
+								<option value="bigint">bigint</option>
+								<option value="float">float</option>
+								<option value="double">double</option>
+								<option value="decimal">decimal</option>
+								<option value="date">date</option>
+								<option value="datetime">datetime</option>
+								<option value="timestamp">timestamp</option>
+								<option value="time">time</option>
+								<option value="year">year</option>
+							</select>
+						</td>
+						<td
+							><input
+								type="text"
+								id="size"
+								name="attributes[{i}][size]"
+								bind:value={itemInputs.size}
+							/></td
+						>
+						<td>
+							<select name="type" id="constraint" bind:value={itemInputs.constraint}>
+								<option value="" />
+								<option value="primary_key">Primary Key</option>
+							</select>
+						</td>
+						<td>
+							<input type="checkbox" id="null" name="null" bind:value={itemInputs.null} />
+						</td>
+					</tr>
+				{/each}
+			</table>
+
+			<div>
+				<button on:click={handleAddTableInput} type="button">+</button>
+			</div>
+			<button>Submbit</button>
+		</form>
+	</Modal>
 {/if}
 
 <style>
-    table,th, td {
-        user-select: none;
-        -webkit-user-select: none;
-        -khtml-user-select: none;
-        -moz-user-select: none;
-        -o-user-select: none;
-        pointer-events: none;
-        border: 1px solid  rgb(103, 100, 141);
-    }
+	form {
+		user-select: none;
+		-webkit-user-select: none;
+		-khtml-user-select: none;
+		-moz-user-select: none;
+		-o-user-select: none;
+	}
 
-    th {
-        text-align: center;
-    }
+	.table {
+		width: 15rem;
+	}
+
+	.table,
+	.table th,
+	.table td {
+		user-select: none;
+		-webkit-user-select: none;
+		-khtml-user-select: none;
+		-moz-user-select: none;
+		-o-user-select: none;
+		pointer-events: none;
+		border: 1px solid rgb(103, 100, 141);
+	}
+
+	th {
+		text-align: center;
+	}
 </style>
