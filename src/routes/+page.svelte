@@ -11,6 +11,7 @@
 
 	// let test = [
 	// 	{
+	// 		id: 0,
 	// 		tableName: 'first table',
 	// 		xPosition: '200px',
 	// 		yPosition: '200px',
@@ -27,6 +28,7 @@
 	// 		]
 	// 	},
 	// 	{
+	// 		id: 1,
 	// 		tableName: 'second table',
 	// 		xPosition: '400px',
 	// 		yPosition: '400px',
@@ -43,6 +45,7 @@
 	// 		]
 	// 	},
 	// 	{
+	// 		id: 2,
 	// 		tableName: 'second table',
 	// 		xPosition: '600px',
 	// 		yPosition: '300px',
@@ -59,6 +62,7 @@
 	// 		]
 	// 	},
 	// 	{
+	// 		id: 3,
 	// 		type: 'relationLine',
 	// 		divId1: 0,
 	// 		divId2: 2
@@ -90,6 +94,9 @@
 			/>
 		{:else if element.type == 'relationLine'}
 			<RelationLine
+				connection={element.values}
+				id={i}
+				elementsIds={[element.divId1, element.divId2]}
 				dragableElements={[dragableElements[element.divId1], dragableElements[element.divId2]]}
 			/>
 		{/if}

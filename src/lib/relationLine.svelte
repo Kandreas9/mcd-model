@@ -3,7 +3,14 @@
 	import Modal from './modal.svelte';
 
 	export let dragableElements;
+	export let id;
+	export let elementsIds;
+	let relationLine;
 
+	export let connection = {
+		min: '0',
+		max: 'n'
+	};
 	let line;
 	let isModalOpen = false;
 
@@ -15,16 +22,21 @@
 		isModalOpen = false;
 	};
 
+	let x1;
+	let x2;
+	let y1;
+	let y2;
+
 	function connect(div1, div2, color, thickness) {
 		let position1 = getPosition(div1);
 		let position2 = getPosition(div2);
 
 		// bottom right
-		let x1 = position1.left;
-		let y1 = position1.top;
+		x1 = position1.left;
+		y1 = position1.top;
 		// top right
-		let x2 = position2.left;
-		let y2 = position2.top;
+		x2 = position2.left;
+		y2 = position2.top;
 		// distance
 		let length = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
 		// center
@@ -69,15 +81,50 @@
 		};
 	}
 
+	function onSubmit(e) {
+		let prevElementList = JSON.parse(localStorage.getItem('elements-model'));
+
+		prevElementList[id] = {
+			type: 'relationLine',
+			divId1: elementsIds[0],
+			divId2: elementsIds[1],
+			values: connection
+		};
+
+		localStorage.setItem('elements-model', JSON.stringify(prevElementList));
+
+		handleCloseSearch();
+	}
+
 	$: if ((dragableElements[0], dragableElements[1])) {
 		connect(dragableElements[0], dragableElements[1], '#0F0', 5);
 	}
 </script>
 
-<div on:dblclick={handledbclick}>
-	{@html line}
+<div bind:this={relationLine} on:dblclick={handledbclick}>
+	{#if line}
+		<div style="position: absolute;top: {(y2 + y1) / 2}px;left: {(x2 + x1) / 2}px;">
+			{connection.min}
+		</div>
+		{@html line}
+	{/if}
 </div>
 
 {#if isModalOpen}
-	<Modal {handleCloseSearch} />
+	<Modal {handleCloseSearch}>
+		<form on:submit|preventDefault={onSubmit}>
+			<table>
+				<tr>
+					<th>Min</th>
+					<th>Max</th>
+				</tr>
+				<tr>
+					<td><input type="text" name="min" id="min" bind:value={connection.min} /></td>
+					<td><input type="text" name="max" id="max" bind:value={connection.max} /></td>
+				</tr>
+			</table>
+
+			<button>Submbit</button>
+		</form></Modal
+	>
 {/if}
