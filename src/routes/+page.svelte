@@ -5,9 +5,11 @@
 	import Nav from '$lib/nav.svelte';
 	import EntityTable from '../lib/entityTable.svelte';
 	import RelationLine from '../lib/relationLine.svelte';
+	import SideMenu from '../lib/sideMenu.svelte';
 
 	let elements;
 	let dragableElements = [];
+	let sideMenuSelectedItem;
 
 	// let test = [
 	// 	{
@@ -102,5 +104,7 @@
 		{/if}
 	{/each}
 {/if}
+
+<SideMenu {sideMenuSelectedItem} />
 
 <button on:click={test2}>TESTME</button>
