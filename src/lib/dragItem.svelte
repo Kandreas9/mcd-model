@@ -4,6 +4,7 @@
 	export let xPosition = '200px';
 	export let yPosition = '200px';
 	export let disabled;
+	export let id;
 
 	let dragItem = null;
 	let xOffset;
@@ -28,6 +29,8 @@
 	function drop() {
 		if (!disabled) {
 			dragItem = null;
+
+			updatePosition();
 		}
 	}
 
@@ -60,6 +63,18 @@
 			dragItem = null;
 		}
 	}
+
+	const updatePosition = () => {
+		let prevElementList = JSON.parse(localStorage.getItem('elements-model'));
+
+		prevElementList[id] = {
+			...prevElementList[id],
+			xPosition,
+			yPosition
+		};
+
+		localStorage.setItem('elements-model', JSON.stringify(prevElementList));
+	};
 </script>
 
 <div

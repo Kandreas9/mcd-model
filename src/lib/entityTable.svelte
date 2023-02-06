@@ -61,7 +61,7 @@
 	}
 </script>
 
-<DragItem {disabled} {xPosition} {yPosition} bind:dragableElement {handledbclick}>
+<DragItem {id} {disabled} {xPosition} {yPosition} bind:dragableElement {handledbclick}>
 	<table
 		class:highlight={selected.id1 == id || selected.id2 == id}
 		on:click={() => handleRelationClick(id, 'table')}

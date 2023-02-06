@@ -47,7 +47,7 @@
 		// make hr
 		line =
 			// `<div style='z-index: 10;position: absolute;padding:0px; margin:0px; height: ${thickness}px;background-color: ${color};line-height:1px; ; left: ${cx}px; top: ${cy}px; width: ${length}px; transform: rotate(${angle}deg);/>`
-			"<div style='z-index: 10;position: absolute;padding:0px; margin:0px; height:" +
+			"<div style='position: absolute;padding:0px; margin:0px; height:" +
 			thickness +
 			'px; background-color:' +
 			color +
