@@ -7,6 +7,9 @@
 	export let yPosition;
 	export let values;
 	export let tableName;
+	export let disabled;
+	export let handleRelationClick;
+	export let selected;
 
 	export let dragableElement;
 
@@ -15,7 +18,9 @@
 	let isModalOpen = false;
 
 	const handledbclick = () => {
-		isModalOpen = true;
+		if (!disabled) {
+			isModalOpen = true;
+		}
 	};
 
 	const handleCloseSearch = () => {
@@ -56,8 +61,13 @@
 	}
 </script>
 
-<DragItem {xPosition} {yPosition} bind:dragableElement {handledbclick}>
-	<table class="table">
+<DragItem {disabled} {xPosition} {yPosition} bind:dragableElement {handledbclick}>
+	<table
+		class:highlight={selected.id1 == id || selected.id2 == id}
+		on:click={() => handleRelationClick(id, 'table')}
+		class="table"
+		class:active={!disabled}
+	>
 		<tr>
 			<th colspan="2">{tableName}</th>
 		</tr>
@@ -186,16 +196,23 @@
 		width: 15rem;
 	}
 
-	.table,
-	.table th,
-	.table td {
+	.active {
 		user-select: none;
 		-webkit-user-select: none;
 		-khtml-user-select: none;
 		-moz-user-select: none;
 		-o-user-select: none;
 		pointer-events: none;
+	}
+
+	.table,
+	.table th,
+	.table td {
 		border: 1px solid rgb(103, 100, 141);
+	}
+
+	.highlight {
+		border: 1px solid red;
 	}
 
 	th {

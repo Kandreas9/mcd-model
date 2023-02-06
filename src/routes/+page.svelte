@@ -10,6 +10,8 @@
 	let elements;
 	let dragableElements = [];
 	let sideMenuSelectedItem = 'move';
+	let relation = [];
+	let selected = { id1: null, id2: null };
 
 	// let test = [
 	// 	{
@@ -85,7 +87,7 @@
 	}
 
 	const handleBodyClick = (e) => {
-		console.log(e.type, e.detail, e.pointerType);
+		// console.log(e.type, e.detail, e.pointerType);
 		if (sideMenuSelectedItem === 'table') {
 			let prevElementList = JSON.parse(localStorage.getItem('elements-model'));
 
@@ -102,6 +104,48 @@
 			localStorage.setItem('elements-model', JSON.stringify(prevElementList));
 		}
 	};
+
+	const addRelation = () => {
+		let prevElementList = JSON.parse(localStorage.getItem('elements-model'));
+
+		prevElementList.push({
+			id: prevElementList.length,
+			divId1: relation[0][0],
+			divId2: relation[1][0],
+			type: 'relationLine',
+			values: { min: '0', max: 'n' }
+		});
+
+		elements = prevElementList;
+		localStorage.setItem('elements-model', JSON.stringify(prevElementList));
+	};
+
+	const handleRelationClick = (id, type) => {
+		if (sideMenuSelectedItem == 'relationLine') {
+			if (relation.length == 1) {
+				//If id is equal do nothing
+				if (id == relation[0][0]) {
+					relation = [];
+					selected = { id1: null, id2: null };
+
+					return;
+				}
+
+				relation.push([id, type]);
+				selected.id2 = id;
+
+				addRelation();
+			} else if (relation.length < 1) {
+				relation.push([id, type]);
+				selected.id1 = id;
+			}
+		}
+	};
+
+	$: if (sideMenuSelectedItem !== 'relationLine') {
+		selected = { id1: null, id2: null };
+		relation = [];
+	}
 </script>
 
 <Nav />
@@ -111,8 +155,11 @@
 		{#each elements as element, i}
 			{#if element.type == 'entity'}
 				<EntityTable
+					{selected}
+					disabled={sideMenuSelectedItem == 'relationLine'}
 					bind:dragableElement={dragableElements[i]}
 					id={i}
+					{handleRelationClick}
 					xPosition={element.xPosition}
 					yPosition={element.yPosition}
 					tableName={element.tableName}

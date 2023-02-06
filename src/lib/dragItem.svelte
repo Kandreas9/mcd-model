@@ -3,6 +3,7 @@
 	export let handledbclick;
 	export let xPosition = '200px';
 	export let yPosition = '200px';
+	export let disabled;
 
 	let dragItem = null;
 	let xOffset;
@@ -16,14 +17,18 @@
 	};
 
 	function dragstart(e) {
-		document.onmousemove = move;
-		dragItem = e.target;
-		xOffset = e.offsetX;
-		yOffset = e.offsetY;
+		if (!disabled) {
+			document.onmousemove = move;
+			dragItem = e.target;
+			xOffset = e.offsetX;
+			yOffset = e.offsetY;
+		}
 	}
 
 	function drop() {
-		dragItem = null;
+		if (!disabled) {
+			dragItem = null;
+		}
 	}
 
 	function move(e) {
