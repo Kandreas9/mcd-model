@@ -10,6 +10,7 @@
 	export let disabled;
 	export let handleRelationClick;
 	export let selected;
+	export let elements;
 
 	export let dragableElement;
 
@@ -59,6 +60,17 @@
 
 		handleCloseSearch();
 	}
+
+	const handleDelete = () => {
+		let prevElementList = JSON.parse(localStorage.getItem('elements-model'));
+
+		prevElementList.splice(id, id);
+
+		localStorage.setItem('elements-model', JSON.stringify(prevElementList));
+
+		handleCloseSearch();
+		elements = prevElementList;
+	};
 </script>
 
 <DragItem {id} {disabled} {xPosition} {yPosition} bind:dragableElement {handledbclick}>
@@ -178,12 +190,18 @@
 			<div>
 				<button on:click={handleAddTableInput} type="button">+</button>
 			</div>
-			<button>Submbit</button>
+			<button>Submit</button>
+			<button on:click={handleDelete} type="button" class="delete">Delete</button>
 		</form>
 	</Modal>
 {/if}
 
 <style>
+	.delete {
+		background-color: red;
+		color: white;
+	}
+
 	form {
 		user-select: none;
 		-webkit-user-select: none;

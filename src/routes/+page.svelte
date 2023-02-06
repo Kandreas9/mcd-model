@@ -156,6 +156,7 @@
 			{#if element.type == 'entity'}
 				<EntityTable
 					{selected}
+					bind:elements
 					disabled={sideMenuSelectedItem == 'relationLine'}
 					bind:dragableElement={dragableElements[i]}
 					id={i}
