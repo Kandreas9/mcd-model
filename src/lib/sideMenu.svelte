@@ -12,6 +12,7 @@
 
 	const handleSelectItem = (e) => {
 		sideMenuSelectedItem = e.target.id;
+		handleCloseMenu();
 	};
 </script>
 
@@ -35,8 +36,24 @@
 		id="table"
 		class:selected={sideMenuSelectedItem === 'table'}
 		class="option"
-		src="table.png"
+		src="entity-table.svg"
 		alt="table"
+	/>
+	<!-- <img
+		on:click={handleSelectItem}
+		id="relationTable"
+		class:selected={sideMenuSelectedItem === 'relationTable'}
+		class="option"
+		src="relation-table.svg"
+		alt="relation table"
+	/> -->
+	<img
+		on:click={handleSelectItem}
+		id="relationLine"
+		class:selected={sideMenuSelectedItem === 'relationLine'}
+		class="option"
+		src="relation-line.svg"
+		alt="relation line"
 	/>
 </div>
 
@@ -49,7 +66,7 @@
 		width: 40vw;
 		transform: translateX(40vw);
 		background-color: rgb(47, 45, 67);
-		transition: transform 1s ease-in-out;
+		transition: transform 0.7s ease-in-out;
 		border-left: 2px solid rgb(95, 92, 126);
 		display: flex;
 		flex-direction: column;

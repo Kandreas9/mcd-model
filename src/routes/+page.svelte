@@ -9,7 +9,7 @@
 
 	let elements;
 	let dragableElements = [];
-	let sideMenuSelectedItem;
+	let sideMenuSelectedItem = 'move';
 
 	// let test = [
 	// 	{
@@ -67,7 +67,11 @@
 	// 		id: 3,
 	// 		type: 'relationLine',
 	// 		divId1: 0,
-	// 		divId2: 2
+	// 		divId2: 2,
+	// 		values: {
+	//		 	min: '0',
+	//		 	max: 'n'
+	//		}
 	// 	}
 	// ];
 
@@ -79,32 +83,61 @@
 	function test2() {
 		console.log(dragableElements);
 	}
+
+	const handleBodyClick = (e) => {
+		console.log(e.type, e.detail, e.pointerType);
+		if (sideMenuSelectedItem === 'table') {
+			let prevElementList = JSON.parse(localStorage.getItem('elements-model'));
+
+			prevElementList.push({
+				id: prevElementList.length,
+				xPosition: `${e.clientX}px`,
+				yPosition: `${e.clientY}px`,
+				type: 'entity',
+				values: [],
+				tableName: `entity${prevElementList.length}`
+			});
+
+			elements = prevElementList;
+			localStorage.setItem('elements-model', JSON.stringify(prevElementList));
+		}
+	};
 </script>
 
 <Nav />
 
-{#if elements}
-	{#each elements as element, i}
-		{#if element.type == 'entity'}
-			<EntityTable
-				bind:dragableElement={dragableElements[i]}
-				id={i}
-				xPosition={element.xPosition}
-				yPosition={element.yPosition}
-				tableName={element.tableName}
-				values={element.values}
-			/>
-		{:else if element.type == 'relationLine'}
-			<RelationLine
-				connection={element.values}
-				id={i}
-				elementsIds={[element.divId1, element.divId2]}
-				dragableElements={[dragableElements[element.divId1], dragableElements[element.divId2]]}
-			/>
-		{/if}
-	{/each}
-{/if}
+<div class="model-area" on:click={handleBodyClick}>
+	{#if elements}
+		{#each elements as element, i}
+			{#if element.type == 'entity'}
+				<EntityTable
+					bind:dragableElement={dragableElements[i]}
+					id={i}
+					xPosition={element.xPosition}
+					yPosition={element.yPosition}
+					tableName={element.tableName}
+					values={element.values}
+				/>
+			{:else if element.type == 'relationLine'}
+				<RelationLine
+					connection={element.values}
+					id={i}
+					elementsIds={[element.divId1, element.divId2]}
+					dragableElements={[dragableElements[element.divId1], dragableElements[element.divId2]]}
+				/>
+			{/if}
+		{/each}
+	{/if}
+</div>
 
-<SideMenu {sideMenuSelectedItem} />
+<SideMenu bind:sideMenuSelectedItem />
 
-<button on:click={test2}>TESTME</button>
+<!-- <button on:click={test2}>TESTME</button> -->
+<style>
+	.model-area {
+		height: calc(100% - 60px);
+		width: 100%;
+		/* overflow: hidden; */
+		/* position: relative; */
+	}
+</style>
