@@ -81,11 +81,9 @@
 
 	if (browser) {
 		// localStorage.setItem('elements-model', JSON.stringify(test));
-		elements = JSON.parse(localStorage.getItem('elements-model'));
-	}
-
-	function test2() {
-		console.log(dragableElements);
+		setTimeout(() => {
+			elements = JSON.parse(localStorage.getItem('elements-model'));
+		}, 1000);
 	}
 
 	const handleBodyClick = (e) => {
@@ -167,13 +165,13 @@
 
 <Nav />
 
-<div
-	class="model-area"
-	tabIndex={0}
-	on:keydown={(e) => handleKeyDown(e, handleBodyClick)}
-	on:click={handleBodyClick}
->
-	{#if elements}
+{#if elements}
+	<div
+		class="model-area"
+		tabIndex={0}
+		on:keydown={(e) => handleKeyDown(e, handleBodyClick)}
+		on:click={handleBodyClick}
+	>
 		{#each elements as element, i}
 			{#if element.type == 'entity'}
 				<EntityTable
@@ -211,17 +209,21 @@
 				/>
 			{/if}
 		{/each}
-	{/if}
-</div>
+	</div>
+{:else}
+	<div class="lds-ripple">
+		<div />
+		<div />
+	</div>
+{/if}
 
-<SideMenu bind:sideMenuSelectedItem />
+{#if elements}
+	<SideMenu bind:sideMenuSelectedItem />
+{/if}
 
-<!-- <button on:click={test2}>TESTME</button> -->
 <style>
 	.model-area {
 		height: calc(100% - 60px);
 		width: 100%;
-		/* overflow: hidden; */
-		/* position: relative; */
 	}
 </style>
