@@ -45,14 +45,23 @@
 
 	const handleDelete = () => {
 		let prevElementList = JSON.parse(localStorage.getItem('elements-model'));
-		// let relations = prevElementList.filter((e) => e.type === 'relationLine');
 
-		prevElementList.splice(id, id);
+		let newElementList = prevElementList.filter((e) => {
+			if (e.id === id) {
+				return false;
+			}
 
-		localStorage.setItem('elements-model', JSON.stringify(prevElementList));
+			if (e.type === 'relationLine' && (e.divId1 === id || e.divId2 === id)) {
+				return false;
+			}
+
+			return true;
+		});
+
+		localStorage.setItem('elements-model', JSON.stringify(newElementList));
 
 		handleCloseSearch();
-		elements = prevElementList;
+		elements = newElementList;
 	};
 </script>
 
