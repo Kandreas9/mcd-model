@@ -1,4 +1,6 @@
 <script>
+	import handleKeyDown from '../utils/onKeyDown';
+
 	export let sideMenuSelectedItem;
 	let menuOpen = false;
 
@@ -18,12 +20,28 @@
 
 <div class="sideMenu" class:menuOpen>
 	{#if !menuOpen}
-		<img on:click={handleOpenMenu} class="open" src="arrow-left.svg" alt="arrow left" />
+		<img
+			tabIndex={0}
+			on:keydown={(e) => handleKeyDown(e, handleOpenMenu)}
+			on:click={handleOpenMenu}
+			class="open"
+			src="arrow-left.svg"
+			alt="arrow left"
+		/>
 	{:else}
-		<img on:click={handleCloseMenu} class="close" src="arrow-right.svg" alt="arrow right" />
+		<img
+			tabIndex={0}
+			on:keydown={(e) => handleKeyDown(e, handleCloseMenu)}
+			on:click={handleCloseMenu}
+			class="close"
+			src="arrow-right.svg"
+			alt="arrow right"
+		/>
 	{/if}
 
 	<div
+		tabIndex={0}
+		on:keydown={(e) => handleKeyDown(e, handleSelectItem)}
 		on:click={handleSelectItem}
 		id="move"
 		class:selected={sideMenuSelectedItem === 'move'}
@@ -32,6 +50,8 @@
 		MOVE
 	</div>
 	<img
+		tabIndex={0}
+		on:keydown={(e) => handleKeyDown(e, handleSelectItem)}
 		on:click={handleSelectItem}
 		id="table"
 		class:selected={sideMenuSelectedItem === 'table'}
@@ -48,6 +68,8 @@
 		alt="relation table"
 	/> -->
 	<img
+		tabIndex={0}
+		on:keydown={(e) => handleKeyDown(e, handleSelectItem)}
 		on:click={handleSelectItem}
 		id="relationLine"
 		class:selected={sideMenuSelectedItem === 'relationLine'}

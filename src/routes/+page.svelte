@@ -6,6 +6,7 @@
 	import EntityTable from '../lib/entityTable.svelte';
 	import RelationLine from '../lib/relationLine.svelte';
 	import SideMenu from '../lib/sideMenu.svelte';
+	import handleKeyDown from '../utils/onKeyDown';
 
 	let elements;
 	let dragableElements = [];
@@ -150,7 +151,12 @@
 
 <Nav />
 
-<div class="model-area" on:click={handleBodyClick}>
+<div
+	class="model-area"
+	tabIndex={0}
+	on:keydown={(e) => handleKeyDown(e, handleBodyClick)}
+	on:click={handleBodyClick}
+>
 	{#if elements}
 		{#each elements as element, i}
 			{#if element.type == 'entity'}

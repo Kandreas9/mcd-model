@@ -1,4 +1,5 @@
 <script>
+	import handleKeyDown from '../utils/onKeyDown';
 	import DragItem from './dragItem.svelte';
 	import Modal from './modal.svelte';
 
@@ -76,6 +77,8 @@
 <DragItem {id} {disabled} {xPosition} {yPosition} bind:dragableElement {handledbclick}>
 	<table
 		class:highlight={selected.id1 == id || selected.id2 == id}
+		tabIndex={0}
+		on:keydown={(e) => handleKeyDown(e, () => handleRelationClick(id, 'table'))}
 		on:click={() => handleRelationClick(id, 'table')}
 		class="table"
 		class:active={!disabled}
