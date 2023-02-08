@@ -174,6 +174,7 @@
 				/>
 			{:else if element.type == 'relationLine'}
 				<RelationLine
+					bind:elements
 					connection={element.values}
 					id={i}
 					elementsIds={[element.divId1, element.divId2]}

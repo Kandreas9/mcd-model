@@ -5,6 +5,7 @@
 	export let dragableElements;
 	export let id;
 	export let elementsIds;
+	export let elements;
 	let relationLine;
 
 	export let connection = {
@@ -96,6 +97,17 @@
 		handleCloseSearch();
 	}
 
+	const handleDelete = () => {
+		let prevElementList = JSON.parse(localStorage.getItem('elements-model'));
+
+		prevElementList.splice(id, id);
+
+		localStorage.setItem('elements-model', JSON.stringify(prevElementList));
+
+		handleCloseSearch();
+		elements = prevElementList;
+	};
+
 	$: if ((dragableElements[0], dragableElements[1])) {
 		connect(dragableElements[0], dragableElements[1], '#0F0', 5);
 	}
@@ -125,6 +137,7 @@
 			</table>
 
 			<button>Submbit</button>
+			<button on:click={handleDelete} type="button" class="delete">Delete</button>
 		</form></Modal
 	>
 {/if}
