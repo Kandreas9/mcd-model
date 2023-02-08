@@ -47,16 +47,16 @@
 		/>
 	{/if}
 
-	<div
+	<img
 		tabIndex={0}
 		on:keydown={(e) => handleKeyDown(e, handleSelectItem)}
 		on:click={handleSelectItem}
 		id="move"
 		class:selected={sideMenuSelectedItem === 'move'}
 		class="option"
-	>
-		MOVE
-	</div>
+		src="cursor.svg"
+		alt="move cursor"
+	/>
 	<img
 		tabIndex={0}
 		on:keydown={(e) => handleKeyDown(e, handleSelectItem)}
@@ -110,7 +110,7 @@
 		height: 100vh;
 		width: 25vw;
 		transform: translateX(25vw);
-		background-color: rgb(47, 45, 67);
+		background-color: var(--primary);
 		transition: transform 0.7s ease-in-out;
 		border-left: 2px solid rgb(95, 92, 126);
 		display: flex;
@@ -141,13 +141,13 @@
 	.open,
 	.close {
 		user-select: none;
-		border: 1px solid rgb(95, 92, 126);
+		border: 1px solid var(--secondary-light);
 		position: absolute;
 		top: 50%;
 		left: -3rem;
 		transform: translateY(-50%);
 		height: 3rem;
-		background-color: rgb(47, 45, 67);
+		background-color: var(--primary);
 		border-radius: 50% 0 0 50%;
 	}
 </style>

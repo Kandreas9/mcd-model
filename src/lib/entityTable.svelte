@@ -202,23 +202,18 @@
 			</table>
 
 			<div>
-				<button on:click={handleAddTableInput} type="button">+</button>
+				<button class="add" on:click={handleAddTableInput} type="button">+</button>
 			</div>
-			<button>Submit</button>
-			<button on:click={handleDelete} type="button" class="delete">Delete</button>
+
+			<div>
+				<button class="submit">Submit</button>
+				<button on:click={handleDelete} type="button" class="delete">Delete</button>
+			</div>
 		</form>
 	</Modal>
 {/if}
 
 <style>
-	form {
-		user-select: none;
-		-webkit-user-select: none;
-		-khtml-user-select: none;
-		-moz-user-select: none;
-		-o-user-select: none;
-	}
-
 	.table {
 		width: 15rem;
 	}
@@ -232,7 +227,10 @@
 		pointer-events: none;
 	}
 
-	.table,
+	.table {
+		margin: 0.15rem;
+	}
+
 	.table th,
 	.table td {
 		border: 1px solid rgb(103, 100, 141);

@@ -18,7 +18,7 @@
 	}
 
 	header {
-		background-color: rgb(47, 45, 67);
+		background-color: var(--primary);
 		color: white;
 		height: 60px;
 	}

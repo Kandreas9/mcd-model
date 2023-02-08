@@ -40,12 +40,13 @@
 	}
 
 	.modal-content {
+		color: white;
 		padding: 2rem;
 		margin-top: 4rem;
 		position: absolute;
 		z-index: 150;
 		border-radius: 10px;
-		background-color: #6f92f1;
+		background-color: var(--secondary);
 		display: flex;
 		align-items: center;
 	}

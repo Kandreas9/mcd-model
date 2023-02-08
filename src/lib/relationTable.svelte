@@ -105,21 +105,15 @@
 				<input type="text" id="value" name="value" bind:value />
 			</label>
 
-			<button>Submit</button>
-			<button on:click={handleDelete} type="button" class="delete">Delete</button>
+			<div>
+				<button class="submit">Submit</button>
+				<button on:click={handleDelete} type="button" class="delete">Delete</button>
+			</div>
 		</form>
 	</Modal>
 {/if}
 
 <style>
-	form {
-		user-select: none;
-		-webkit-user-select: none;
-		-khtml-user-select: none;
-		-moz-user-select: none;
-		-o-user-select: none;
-	}
-
 	.active {
 		user-select: none;
 		-webkit-user-select: none;
