@@ -45,6 +45,12 @@
 		tableInputs = tempArray;
 	};
 
+	const handleRemoveTableInput = (i) => {
+		let tempArray = tableInputs.filter((_e, index) => index !== i);
+
+		tableInputs = tempArray;
+	};
+
 	const onSubmit = (e) => {
 		let prevElementList = JSON.parse(localStorage.getItem('elements-model'));
 
@@ -196,6 +202,11 @@
 						</td>
 						<td>
 							<input type="checkbox" id="null" name="null" bind:value={itemInputs.null} />
+						</td>
+						<td>
+							<button type="button" on:click={(e) => handleRemoveTableInput(i)} class="remove"
+								>-
+							</button>
 						</td>
 					</tr>
 				{/each}
