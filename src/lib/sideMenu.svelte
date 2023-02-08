@@ -1,8 +1,40 @@
 <script>
+	import { toPng } from 'html-to-image';
+
 	import handleKeyDown from '../utils/onKeyDown';
+	import Modal from './modal.svelte';
 
 	export let sideMenuSelectedItem;
+	export let modelArea;
 	let menuOpen = false;
+	let isModalOpen = false;
+	let imgUrl;
+
+	const handleTakeScreenShot = () => {
+		if (modelArea === undefined) {
+			return;
+		}
+
+		toPng(modelArea, { cacheBust: true })
+			.then((dataUrl) => {
+				imgUrl = dataUrl;
+				isModalOpen = true;
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
+
+	const handleDownloadScreenshot = () => {
+		const link = document.createElement('a');
+		link.download = 'mcd-model.png';
+		link.href = imgUrl;
+		link.click();
+	};
+
+	const handleCloseSearch = () => {
+		isModalOpen = false;
+	};
 
 	const handleOpenMenu = () => {
 		menuOpen = true;
@@ -87,9 +119,33 @@
 		src="relation-line.svg"
 		alt="relation line"
 	/>
+
+	<button class="screenshot" on:click={handleTakeScreenShot}>Take Screenshot</button>
 </div>
 
+{#if isModalOpen}
+	<Modal {handleCloseSearch}>
+		<div class="wrapper">
+			<img class="mcdModelImg" src={imgUrl} alt="mcd model screenshot" />
+			<button class="download" on:click={handleDownloadScreenshot}>Download</button>
+		</div>
+	</Modal>
+{/if}
+
 <style>
+	.mcdModelImg {
+		border: 1px solid rgba(255, 255, 255, 0.3);
+		border-radius: 10px;
+		width: 80vw;
+		height: 70vh;
+	}
+
+	.wrapper {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
 	.background {
 		transition: opacity 0.7s ease-in-out, transform 0s 0.7s;
 		position: fixed;

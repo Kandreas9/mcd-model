@@ -52,7 +52,8 @@ button.delete {
 	padding: 0.5rem;
 }
 
-button.submit {
+button.submit,
+button.screenshot {
 	padding: 0.5rem;
 }
 
@@ -66,6 +67,12 @@ button.remove {
 	border-radius: 0;
 	color: white;
 	font-size: 1.3rem;
+}
+
+button.download {
+	background-color: rgb(79, 194, 79);
+	padding: 0.5rem;
+	color: white;
 }
 
 /*===CSS LOADER===*/

@@ -15,72 +15,9 @@
 	let relation = [];
 	let selected = { id1: null, id2: null };
 
-	// let test = [
-	// 	{
-	// 		id: 0,
-	// 		tableName: 'first table',
-	// 		xPosition: '200px',
-	// 		yPosition: '200px',
-	// 		type: 'entity',
-	// 		values: [
-	// 			{
-	// 				name: 'test',
-	// 				code: 'TEST',
-	// 				type: 'char',
-	// 				size: null,
-	// 				constraint: 'primary_key',
-	// 				null: false
-	// 			}
-	// 		]
-	// 	},
-	// 	{
-	// 		id: 1,
-	// 		tableName: 'second table',
-	// 		xPosition: '400px',
-	// 		yPosition: '400px',
-	// 		type: 'entity',
-	// 		values: [
-	// 			{
-	// 				name: 'test',
-	// 				code: 'TEST',
-	// 				type: 'char',
-	// 				size: null,
-	// 				constraint: 'primary_key',
-	// 				null: false
-	// 			}
-	// 		]
-	// 	},
-	// 	{
-	// 		id: 2,
-	// 		tableName: 'second table',
-	// 		xPosition: '600px',
-	// 		yPosition: '300px',
-	// 		type: 'entity',
-	// 		values: [
-	// 			{
-	// 				name: 'test',
-	// 				code: 'TEST',
-	// 				type: 'char',
-	// 				size: null,
-	// 				constraint: 'primary_key',
-	// 				null: false
-	// 			}
-	// 		]
-	// 	},
-	// 	{
-	// 		id: 3,
-	// 		type: 'relationLine',
-	// 		divId1: 0,
-	// 		divId2: 2,
-	// 		values: {
-	//		 	min: '0',
-	//		 	max: 'n'
-	//		}
-	// 	}
-	// ];
+	let modelArea;
 
 	if (browser) {
-		// localStorage.setItem('elements-model', JSON.stringify(test));
 		setTimeout(() => {
 			elements = JSON.parse(localStorage.getItem('elements-model'));
 		}, 1000);
@@ -167,6 +104,7 @@
 
 {#if elements}
 	<div
+		bind:this={modelArea}
 		class="model-area"
 		tabIndex={0}
 		on:keydown={(e) => handleKeyDown(e, handleBodyClick)}
@@ -218,12 +156,15 @@
 {/if}
 
 {#if elements}
-	<SideMenu bind:sideMenuSelectedItem />
+	<SideMenu {modelArea} bind:sideMenuSelectedItem />
 {/if}
 
 <style>
 	.model-area {
 		height: calc(100% - 60px);
 		width: 100%;
+		background: linear-gradient(90deg, var(--secondary) calc(44px - 2px), transparent 1%) center,
+			linear-gradient(var(--secondary) calc(44px - 2px), transparent 1%) center, var(--primary);
+		background-size: 44px 44px;
 	}
 </style>

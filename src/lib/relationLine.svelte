@@ -111,14 +111,17 @@
 	};
 
 	$: if ((dragableElements[0], dragableElements[1])) {
-		connect(dragableElements[0], dragableElements[1], '#0F0', 5);
+		connect(dragableElements[0], dragableElements[1], 'var(--primary)', 5);
 	}
 </script>
 
 <div bind:this={relationLine} on:dblclick={handledbclick}>
 	{#if line}
-		<div style="position: absolute;top: {(y2 + y1) / 2}px;left: {(x2 + x1) / 2}px;">
-			{connection.min}
+		<div
+			class="minMax"
+			style="z-index: 2;position: absolute;top: {(y2 + y1) / 2}px;left: {(x2 + x1) / 2}px;"
+		>
+			{connection.min}/{connection.max}
 		</div>
 		{@html line}
 	{/if}
@@ -145,3 +148,12 @@
 		</form></Modal
 	>
 {/if}
+
+<style>
+	.minMax {
+		font-weight: bold;
+		color: white;
+		font-size: 1.5rem;
+		letter-spacing: 0.1rem;
+	}
+</style>
