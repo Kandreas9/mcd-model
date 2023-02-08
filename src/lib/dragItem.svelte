@@ -5,6 +5,7 @@
 	export let yPosition = '200px';
 	export let disabled;
 	export let id;
+	export let relationTable = false;
 
 	let dragItem = null;
 	let xOffset;
@@ -80,6 +81,7 @@
 <div
 	bind:this={dragableElement}
 	on:dblclick={handledbclick}
+	class:relationTable
 	class="box"
 	on:mousedown={dragstart}
 	on:mouseup={drop}
@@ -99,5 +101,9 @@
 		min-width: 100px;
 		height: auto;
 		width: auto;
+	}
+
+	.relationTable {
+		border-radius: 50%;
 	}
 </style>

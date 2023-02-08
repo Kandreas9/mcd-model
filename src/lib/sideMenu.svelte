@@ -59,14 +59,16 @@
 		src="entity-table.svg"
 		alt="table"
 	/>
-	<!-- <img
+	<img
+		tabIndex={0}
+		on:keydown={(e) => handleKeyDown(e, handleSelectItem)}
 		on:click={handleSelectItem}
 		id="relationTable"
 		class:selected={sideMenuSelectedItem === 'relationTable'}
 		class="option"
 		src="relation-table.svg"
 		alt="relation table"
-	/> -->
+	/>
 	<img
 		tabIndex={0}
 		on:keydown={(e) => handleKeyDown(e, handleSelectItem)}

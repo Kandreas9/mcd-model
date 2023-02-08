@@ -1,5 +1,4 @@
 <script>
-	import { onMount } from 'svelte';
 	import Modal from './modal.svelte';
 
 	export let dragableElements;
@@ -29,46 +28,48 @@
 	let y2;
 
 	function connect(div1, div2, color, thickness) {
-		let position1 = getPosition(div1);
-		let position2 = getPosition(div2);
+		if (elements) {
+			let position1 = getPosition(div1);
+			let position2 = getPosition(div2);
 
-		// bottom right
-		x1 = position1.left;
-		y1 = position1.top;
-		// top right
-		x2 = position2.left;
-		y2 = position2.top;
-		// distance
-		let length = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
-		// center
-		let cx = (x1 + x2) / 2 - length / 2;
-		let cy = (y1 + y2) / 2 - thickness / 2;
-		// angle
-		let angle = Math.atan2(y1 - y2, x1 - x2) * (180 / Math.PI);
-		// make hr
-		line =
-			// `<div style='z-index: 10;position: absolute;padding:0px; margin:0px; height: ${thickness}px;background-color: ${color};line-height:1px; ; left: ${cx}px; top: ${cy}px; width: ${length}px; transform: rotate(${angle}deg);/>`
-			"<div style='position: absolute;padding:0px; margin:0px; height:" +
-			thickness +
-			'px; background-color:' +
-			color +
-			'; line-height:1px; left:' +
-			cx +
-			'px; top:' +
-			cy +
-			'px; width:' +
-			length +
-			'px; -moz-transform:rotate(' +
-			angle +
-			'deg); -webkit-transform:rotate(' +
-			angle +
-			'deg); -o-transform:rotate(' +
-			angle +
-			'deg); -ms-transform:rotate(' +
-			angle +
-			'deg); transform:rotate(' +
-			angle +
-			"deg);' />";
+			// bottom right
+			x1 = position1.left;
+			y1 = position1.top;
+			// top right
+			x2 = position2.left;
+			y2 = position2.top;
+			// distance
+			let length = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+			// center
+			let cx = (x1 + x2) / 2 - length / 2;
+			let cy = (y1 + y2) / 2 - thickness / 2;
+			// angle
+			let angle = Math.atan2(y1 - y2, x1 - x2) * (180 / Math.PI);
+			// make hr
+			line =
+				// `<div style='z-index: 10;position: absolute;padding:0px; margin:0px; height: ${thickness}px;background-color: ${color};line-height:1px; ; left: ${cx}px; top: ${cy}px; width: ${length}px; transform: rotate(${angle}deg);/>`
+				"<div style='position: absolute;padding:0px; margin:0px; height:" +
+				thickness +
+				'px; background-color:' +
+				color +
+				'; line-height:1px; left:' +
+				cx +
+				'px; top:' +
+				cy +
+				'px; width:' +
+				length +
+				'px; -moz-transform:rotate(' +
+				angle +
+				'deg); -webkit-transform:rotate(' +
+				angle +
+				'deg); -o-transform:rotate(' +
+				angle +
+				'deg); -ms-transform:rotate(' +
+				angle +
+				'deg); transform:rotate(' +
+				angle +
+				"deg);' />";
+		}
 	}
 
 	function getPosition(el) {
@@ -86,6 +87,7 @@
 		let prevElementList = JSON.parse(localStorage.getItem('elements-model'));
 
 		prevElementList[id] = {
+			id,
 			type: 'relationLine',
 			divId1: elementsIds[0],
 			divId2: elementsIds[1],
@@ -141,3 +143,13 @@
 		</form></Modal
 	>
 {/if}
+
+<style>
+	form {
+		user-select: none;
+		-webkit-user-select: none;
+		-khtml-user-select: none;
+		-moz-user-select: none;
+		-o-user-select: none;
+	}
+</style>

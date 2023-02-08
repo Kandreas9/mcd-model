@@ -45,10 +45,11 @@
 		tableInputs = tempArray;
 	};
 
-	function onSubmit(e) {
+	const onSubmit = (e) => {
 		let prevElementList = JSON.parse(localStorage.getItem('elements-model'));
 
 		prevElementList[id] = {
+			id,
 			xPosition: dragableElement.style.left,
 			yPosition: dragableElement.style.top,
 			type: 'entity',
@@ -60,7 +61,7 @@
 		localStorage.setItem('elements-model', JSON.stringify(prevElementList));
 
 		handleCloseSearch();
-	}
+	};
 
 	const handleDelete = () => {
 		let prevElementList = JSON.parse(localStorage.getItem('elements-model'));
@@ -200,11 +201,6 @@
 {/if}
 
 <style>
-	.delete {
-		background-color: red;
-		color: white;
-	}
-
 	form {
 		user-select: none;
 		-webkit-user-select: none;

@@ -16,3 +16,8 @@ body {
 		linear-gradient(rgb(80, 76, 121) calc(44px - 2px), transparent 1%) center, rgb(51, 50, 63);
 	background-size: 44px 44px;
 }
+
+.delete {
+	background-color: red;
+	color: white;
+}

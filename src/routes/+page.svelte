@@ -7,6 +7,7 @@
 	import RelationLine from '../lib/relationLine.svelte';
 	import SideMenu from '../lib/sideMenu.svelte';
 	import handleKeyDown from '../utils/onKeyDown';
+	import RelationTable from '../lib/relationTable.svelte';
 
 	let elements;
 	let dragableElements = [];
@@ -88,7 +89,6 @@
 	}
 
 	const handleBodyClick = (e) => {
-		// console.log(e.type, e.detail, e.pointerType);
 		if (sideMenuSelectedItem === 'table') {
 			let prevElementList = JSON.parse(localStorage.getItem('elements-model'));
 
@@ -99,6 +99,20 @@
 				type: 'entity',
 				values: [],
 				tableName: `entity${prevElementList.length}`
+			});
+
+			elements = prevElementList;
+			localStorage.setItem('elements-model', JSON.stringify(prevElementList));
+		} else if (sideMenuSelectedItem === 'relationTable') {
+			let prevElementList = JSON.parse(localStorage.getItem('elements-model'));
+
+			prevElementList.push({
+				id: prevElementList.length,
+				xPosition: `${e.clientX}px`,
+				yPosition: `${e.clientY}px`,
+				type: 'relationTable',
+				value: '',
+				tableName: `relationTable${prevElementList.length}`
 			});
 
 			elements = prevElementList;
@@ -117,6 +131,8 @@
 			values: { min: '0', max: 'n' }
 		});
 
+		relation = [];
+		selected = { id1: null, id2: null };
 		elements = prevElementList;
 		localStorage.setItem('elements-model', JSON.stringify(prevElementList));
 	};
@@ -163,7 +179,7 @@
 				<EntityTable
 					{selected}
 					bind:elements
-					disabled={sideMenuSelectedItem == 'relationLine'}
+					disabled={sideMenuSelectedItem === 'relationLine'}
 					bind:dragableElement={dragableElements[i]}
 					id={i}
 					{handleRelationClick}
@@ -172,7 +188,20 @@
 					tableName={element.tableName}
 					values={element.values}
 				/>
-			{:else if element.type == 'relationLine'}
+			{:else if element.type === 'relationTable'}
+				<RelationTable
+					{selected}
+					bind:elements
+					disabled={sideMenuSelectedItem === 'relationLine'}
+					bind:dragableElement={dragableElements[i]}
+					id={i}
+					{handleRelationClick}
+					xPosition={element.xPosition}
+					yPosition={element.yPosition}
+					tableName={element.tableName}
+					value={element.value}
+				/>
+			{:else if element.type === 'relationLine'}
 				<RelationLine
 					bind:elements
 					connection={element.values}
