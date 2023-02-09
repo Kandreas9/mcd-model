@@ -156,15 +156,68 @@
 {/if}
 
 {#if elements}
-	<SideMenu {modelArea} bind:sideMenuSelectedItem />
+	<div class="sideMenuWrapper">
+		<SideMenu {modelArea} bind:sideMenuSelectedItem />
+	</div>
 {/if}
+
+<div class="mobileWrapper">
+	<img src="mobile.png" alt="dragon breathing fire at a castle" />
+	<h2>Unfortunately this site does not work for mobile.</h2>
+</div>
 
 <style>
 	.model-area {
 		height: calc(100% - 60px);
 		width: 100%;
+		margin: 0 auto;
+		max-width: 1900px;
 		background: linear-gradient(90deg, var(--secondary) calc(44px - 2px), transparent 1%) center,
 			linear-gradient(var(--secondary) calc(44px - 2px), transparent 1%) center, var(--primary);
 		background-size: 44px 44px;
+	}
+
+	.mobileWrapper {
+		overflow: hidden;
+		position: relative;
+		display: none;
+	}
+
+	.mobileWrapper img {
+		width: 40rem;
+	}
+
+	.mobileWrapper h2 {
+		word-break: break-word;
+		color: rgb(203, 203, 203);
+		text-align: center;
+		font-weight: bold;
+		font-size: 2rem;
+		margin: 0 2rem;
+	}
+
+	@media (max-width: 1100px) {
+		.model-area {
+			display: none;
+		}
+
+		.sideMenuWrapper {
+			display: none;
+		}
+
+		.mobileWrapper {
+			height: calc(100% - 60px);
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+		}
+	}
+
+	@media (max-width: 540px) {
+		.mobileWrapper img {
+			width: 30rem;
+		}
 	}
 </style>
