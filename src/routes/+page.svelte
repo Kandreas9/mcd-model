@@ -25,7 +25,8 @@
 
 	const handleBodyClick = (e) => {
 		if (sideMenuSelectedItem === 'table') {
-			let prevElementList = JSON.parse(localStorage.getItem('elements-model'));
+			let prevElementList =
+				elements === null ? [] : JSON.parse(localStorage.getItem('elements-model'));
 
 			prevElementList.push({
 				id: prevElementList.length,
@@ -39,7 +40,8 @@
 			elements = prevElementList;
 			localStorage.setItem('elements-model', JSON.stringify(prevElementList));
 		} else if (sideMenuSelectedItem === 'relationTable') {
-			let prevElementList = JSON.parse(localStorage.getItem('elements-model'));
+			let prevElementList =
+				elements === null ? [] : JSON.parse(localStorage.getItem('elements-model'));
 
 			prevElementList.push({
 				id: prevElementList.length,
@@ -102,7 +104,7 @@
 
 <Nav />
 
-{#if elements}
+{#if elements !== undefined}
 	<div
 		bind:this={modelArea}
 		class="model-area"
@@ -110,52 +112,54 @@
 		on:keydown={(e) => handleKeyDown(e, handleBodyClick)}
 		on:click={handleBodyClick}
 	>
-		{#each elements as element, i}
-			{#if element.type == 'entity'}
-				<EntityTable
-					{selected}
-					bind:elements
-					disabled={sideMenuSelectedItem === 'relationLine'}
-					bind:dragableElement={dragableElements[i]}
-					id={i}
-					{handleRelationClick}
-					xPosition={element.xPosition}
-					yPosition={element.yPosition}
-					tableName={element.tableName}
-					values={element.values}
-				/>
-			{:else if element.type === 'relationTable'}
-				<RelationTable
-					{selected}
-					bind:elements
-					disabled={sideMenuSelectedItem === 'relationLine'}
-					bind:dragableElement={dragableElements[i]}
-					id={i}
-					{handleRelationClick}
-					xPosition={element.xPosition}
-					yPosition={element.yPosition}
-					tableName={element.tableName}
-					value={element.value}
-				/>
-			{:else if element.type === 'relationLine'}
-				<RelationLine
-					bind:elements
-					connection={element.values}
-					id={i}
-					elementsIds={[element.divId1, element.divId2]}
-					dragableElements={[dragableElements[element.divId1], dragableElements[element.divId2]]}
-				/>
-			{/if}
-		{/each}
+		{#if elements}
+			{#each elements as element, i}
+				{#if element.type == 'entity'}
+					<EntityTable
+						{selected}
+						bind:elements
+						disabled={sideMenuSelectedItem === 'relationLine'}
+						bind:dragableElement={dragableElements[i]}
+						id={i}
+						{handleRelationClick}
+						xPosition={element.xPosition}
+						yPosition={element.yPosition}
+						tableName={element.tableName}
+						values={element.values}
+					/>
+				{:else if element.type === 'relationTable'}
+					<RelationTable
+						{selected}
+						bind:elements
+						disabled={sideMenuSelectedItem === 'relationLine'}
+						bind:dragableElement={dragableElements[i]}
+						id={i}
+						{handleRelationClick}
+						xPosition={element.xPosition}
+						yPosition={element.yPosition}
+						tableName={element.tableName}
+						value={element.value}
+					/>
+				{:else if element.type === 'relationLine'}
+					<RelationLine
+						bind:elements
+						connection={element.values}
+						id={i}
+						elementsIds={[element.divId1, element.divId2]}
+						dragableElements={[dragableElements[element.divId1], dragableElements[element.divId2]]}
+					/>
+				{/if}
+			{/each}
+		{/if}
 	</div>
-{:else}
+{:else if elements === undefined}
 	<div class="lds-ripple">
 		<div />
 		<div />
 	</div>
 {/if}
 
-{#if elements}
+{#if elements !== undefined}
 	<div class="sideMenuWrapper">
 		<SideMenu {modelArea} bind:sideMenuSelectedItem />
 	</div>
