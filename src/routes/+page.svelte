@@ -197,6 +197,10 @@
 	}
 
 	@media (max-width: 1100px) {
+		.lds-ripple {
+			display: none;
+		}
+
 		.model-area {
 			display: none;
 		}
